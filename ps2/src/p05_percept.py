@@ -16,6 +16,7 @@ def initial_state():
     """
 
     # *** START CODE HERE ***
+    return []
     # *** END CODE HERE ***
 
 
@@ -33,6 +34,10 @@ def predict(state, kernel, x_i):
         Returns the prediction (i.e 0 or 1)
     """
     # *** START CODE HERE ***
+    z=0
+    for beta,x in state:
+        z+=beta*kernel(x,x_i)
+    return sign(z)
     # *** END CODE HERE ***
 
 
@@ -47,6 +52,10 @@ def update_state(state, kernel, learning_rate, x_i, y_i):
         y_i: A 0 or 1 indicating the label for a single instance
     """
     # *** START CODE HERE ***
+    
+    coeff=learning_rate*(y_i-predict(state,kernel,x_i))
+    state.append([coeff,x_i])
+
     # *** END CODE HERE ***
 
 
@@ -83,7 +92,7 @@ def rbf_kernel(a, b, sigma=1):
 
 def train_perceptron(kernel_name, kernel, learning_rate):
     """Train a perceptron with the given kernel.
-
+initial
     This function trains a perceptron with a given kernel and then
     uses that perceptron to make predictions.
     The output predictions are saved to src/output/p05_{kernel_name}_predictions.txt.

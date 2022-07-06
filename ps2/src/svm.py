@@ -6,14 +6,12 @@ np.random.seed(123)
 
 def train_and_predict_svm(train_matrix, train_labels, test_matrix, radius):
     """Train an SVM model and predict the resulting labels on a test set.
-
-    Args: 
+    Args:
         train_matrix: A numpy array containing the word counts for the train set
         train_labels: A numpy array containing the spam or not spam labels for the train set
         test_matrix: A numpy array containing the word counts for the test set
         radius: The RBF kernel radius to use for the SVM
-
-    Return: 
+    Return:
         The predicted labels for each message
     """
     model = svm_train(train_matrix, train_labels, radius)

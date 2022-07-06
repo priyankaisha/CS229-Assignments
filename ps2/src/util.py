@@ -74,7 +74,7 @@ def load_spam_dataset(tsv_path):
 
     return messages, np.array(labels)
 
-def plot(x, y, theta, save_path, correction=1.0):
+def plot(x, y, theta, correction=1.0):
     """Plot dataset and fitted logistic regression parameters.
 
     Args:
@@ -97,7 +97,8 @@ def plot(x, y, theta, save_path, correction=1.0):
     # Add labels and save to disk
     plt.xlabel('x1')
     plt.ylabel('x2')
-    plt.savefig(save_path)
+    plt.show()
+    #plt.savefig(save_path)
 
 
 def plot_contour(predict_fn):

@@ -17,11 +17,33 @@ def main(tau_values, train_path, valid_path, test_path, pred_path):
     """
     # Load training set
     x_train, y_train = util.load_dataset(train_path, add_intercept=True)
-
+    x_valid,y_valid=util.load_dataset(valid_path, add_intercept=True)
+    x_test,y_test=util.load_dataset(test_path, add_intercept=True)
     # *** START CODE HERE ***
     # Search tau_values for the best tau (lowest MSE on the validation set)
     # Fit a LWR model with the best tau value
+    MSE=[]
+    for tau in tau_values:
+        clf=LocallyWeightedLinearRegression(tau)
+        clf.fit(x_train, y_train)
+        y_pred=clf.predict(x_valid)
+        MSE.append((y_valid-y_pred).dot(y_valid-y_pred)/(2*y_valid.shape[0]))
+        #print ("tau=",tau,"MSE=",MSE[-1])
+        #plt.plot(x_train,y_train,'bx')
+        #plt.plot(x_valid,y_pred,'ro')
+        #plt.show()
+    i=MSE.index(min(MSE))
+    tau=tau_values[i]
     # Run on the test set to get the MSE value
+    clf=LocallyWeightedLinearRegression(tau)
+    clf.fit(x_train, y_train)
+    y_pred=clf.predict(x_test)
+    MSE_test=(y_test-y_pred).dot(y_test-y_pred)/(2*y_test.shape[0])
+    print ("MSE = ",MSE_test)
     # Save predictions to pred_path
+    np.savetxt(pred_path,y_pred)
     # Plot data
+    plt.plot(x_train,y_train,'bx')
+    plt.plot(x_test,y_pred,'ro')
+    plt.show()
     # *** END CODE HERE ***
